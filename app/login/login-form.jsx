@@ -1,5 +1,6 @@
 'use client'
 
+import { loginUser } from '@/lib/apis/server';
 // use for client side (brwser side) CSR
 import React, { useState } from 'react'
 
@@ -30,7 +31,7 @@ export default function LoginForm() {
         return true
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const isValid = validateForm();
@@ -38,6 +39,11 @@ export default function LoginForm() {
         if (isValid) {
             //login form data submition
             console.log("Form Data :", { email: email, password: password });
+
+            //call the api using fetch
+            const login = await loginUser({ email: email, password: password })
+            console.log("LOGIN RESPONCE")
+
         }
     }
 
