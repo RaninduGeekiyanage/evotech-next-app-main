@@ -20,7 +20,6 @@ export default function LoginForm() {
             setEmailError("");
         }
 
-
         if (!password) {
             setPasswordError("Passowrd is required..!")
             return false
