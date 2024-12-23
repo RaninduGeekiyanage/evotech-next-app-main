@@ -1,17 +1,29 @@
+import clientPromise from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 
-const MOVIES = [
-  { id: 1, title: "Harry Potter 1" },
-  { id: 2, title: "LOard of the ring" },
-  { id: 3, title: "Hobbit" },
-  { id: 4, title: "Instasteller" },
-  { id: 5, title: "Lord of the Rings 1" },
-  { id: 6, title: "Lord of the Rings 2" },
-  { id: 7, title: "The Witcher" },
-  { id: 8, title: "Game of thrones" },
-];
-
 export const GET = async (req) => {
-  // simple end point in nextjs
-  return NextResponse.json({ success: true, movies: MOVIES });
+  //get movies form mongo db
+
+  try {
+    const client = await clientPromise();
+
+    // sample mflix is the database name
+    const db = client.db("sample_mflix");
+
+    //fetch movies from the database
+    const movies = await db
+      .collection("movies")
+      .find({})
+      .sort({ metacritic: -1 })
+      .limit(10)
+      .toArray();
+
+    return NextResponse.json(movies);
+  } catch (error) {
+    console.log("MONGODB ERROR", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
 };
