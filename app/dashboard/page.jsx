@@ -1,8 +1,10 @@
 import {
-  CardTitle,
-  CardHeader,
+  Card,
   CardContent,
+  CardDescription,
   CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { getMovies } from "@/lib/apis/server";
 import Image from "next/image";
@@ -29,36 +31,51 @@ export default async function DashboardPage() {
 
       {/* body section */}
 
-      <div className="container mt-8 mx-auto pt-5">
+      <div className="container mt-8">
         <div className="h-4 my-5">
           <hr className="border-gray-300" />
         </div>
-        <div className="grid grid-cols-1 gap-24 md:grid-cols-4 md:gap-24 px-12 mx-auto max-w-screen-xl">
+        <div className="grid grid-cols-1 px-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 xl:px-16">
           {moviesQuery?.length &&
             moviesQuery.map((movie) => (
               <div
                 key={movie._id}
-                className="h-[320px] w-[180px] border-4 border-gray-400 rounded-sm "
+                className="border-4 border-gray-500 rounded-lg "
               >
-                <CardHeader>
-                  <CardTitle className="text-gray-300">
-                    {movie?.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="relative w-full">
-                    <Image
-                      src={movie?.poster}
-                      alt="poster"
-                      height={120}
-                      width={150} // Makes the image fill the parent container
-                      className="object-cover" // Ensures uniform scaling and cropping
-                    />
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <p>Card Footer</p>
-                </CardFooter>
+                <Card className="w-full h-full bg-slate-800 border-none">
+                  <CardHeader>
+                    <CardTitle className="text-gray-300">
+                      {movie?.title}
+                    </CardTitle>
+                    <div className="text-gray-400 font-bold">
+                      {" "}
+                      {parseInt(movie?.year, 10)}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="relative flex justify-center items-center w-full h-[276px] mb-4 rounded bg-gray-900">
+                      {movie?.poster ? (
+                        <Image
+                          src={movie?.poster}
+                          alt={movie?.title}
+                          width={150}
+                          height={266} // Makes the image fill the parent container
+                          className="h-full w-auto object-contain" // Ensures uniform scaling and cropping
+                        />
+                      ) : (
+                        <div className="text-gray-500 absolute text-center">
+                          No Image Available
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+
+                  <CardFooter>
+                    <CardDescription className="text-gray-400 line-clamp-2">
+                      {movie?.plot}
+                    </CardDescription>
+                  </CardFooter>
+                </Card>
               </div>
             ))}
         </div>
