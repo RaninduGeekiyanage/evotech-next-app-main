@@ -71,9 +71,12 @@ export default async function DashboardPage() {
                   </CardContent>
 
                   <CardFooter>
-                    <CardDescription className="text-gray-400 line-clamp-2">
-                      {movie?.plot}
-                    </CardDescription>
+                    <div>
+                      <div className="text-gray-400 line-clamp-2">
+                        {movie?.plot}
+                      </div>
+                      <div>{movie?.languages}</div>
+                    </div>
                   </CardFooter>
                 </Card>
               </div>
