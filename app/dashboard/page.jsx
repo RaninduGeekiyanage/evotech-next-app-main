@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { getMovies } from "@/lib/apis/server";
 import Image from "next/image";
 
@@ -46,14 +47,14 @@ export default async function DashboardPage() {
                   <CardHeader>
                     <CardTitle className="text-gray-300">
                       {movie?.title}
+                      <span className="text-xs text-neutral-400 font-normal pl-2">
+                        {parseInt(movie?.year, 10)}
+                      </span>
                     </CardTitle>
-                    <div className="text-gray-400 font-bold">
-                      {" "}
-                      {parseInt(movie?.year, 10)}
-                    </div>
+                    <div className="text-gray-400 font-bold"></div>
                   </CardHeader>
                   <CardContent>
-                    <div className="relative flex justify-center items-center w-full h-[276px] mb-4 rounded bg-gray-900">
+                    <div className="relative flex justify-center items-center w-full h-[276px] rounded bg-gray-900">
                       {movie?.poster ? (
                         <Image
                           src={movie?.poster}
@@ -61,6 +62,7 @@ export default async function DashboardPage() {
                           width={150}
                           height={266} // Makes the image fill the parent container
                           className="h-full w-auto object-contain" // Ensures uniform scaling and cropping
+                          priority={true}
                         />
                       ) : (
                         <div className="text-gray-500 absolute text-center">
@@ -72,10 +74,23 @@ export default async function DashboardPage() {
 
                   <CardFooter>
                     <div>
-                      <div className="text-gray-400 line-clamp-2">
-                        {movie?.plot}
+                      <div className="text-gray-500 pb-1">
+                        {movie?.languages}
                       </div>
-                      <div>{movie?.languages}</div>
+                      <div className="text-gray-400 line-clamp-3 text-sm pb-1">
+                        {movie?.plot ?? "N/A"}
+                      </div>
+
+                      <div className="flex justify-between">
+                        <div>
+                          <Badge variant="success" className="font-medium">
+                            Rated: {movie.rated ?? "N/A"}
+                          </Badge>
+                        </div>
+                        <div className="text-gray-400 text-sm pl-5">
+                          IMDB: {movie.imdb.rating ?? "N/A"}
+                        </div>
+                      </div>
                     </div>
                   </CardFooter>
                 </Card>
